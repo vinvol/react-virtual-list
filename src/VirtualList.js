@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 
 import defaultGetVisibleItemBounds from './utils/getVisibleItemBounds';
 import throttleWithRAF from './utils/throttleWithRAF';
@@ -8,13 +7,7 @@ import defaultMapToVirtualProps from './utils/defaultMapVirtualToProps';
 
 const VirtualList = (options, mapVirtualToProps = defaultMapToVirtualProps) => (InnerComponent) => {
   return class vlist extends PureComponent {
-    static propTypes = {
-      getVisibleItemBounds: PropTypes.func,
-      items: PropTypes.array.isRequired,
-      itemHeight: PropTypes.number.isRequired,
-      itemBuffer: PropTypes.number,
-    };
-
+    
     static defaultProps = {
       getVisibleItemBounds: undefined,
       itemBuffer: 0,
@@ -75,7 +68,7 @@ const VirtualList = (options, mapVirtualToProps = defaultMapToVirtualProps) => (
       this.setStateIfNeeded(this.domNode, this.options.container, items, itemHeight, itemBuffer);
     };
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       this._isMounted = true;
     }
 
@@ -100,7 +93,7 @@ const VirtualList = (options, mapVirtualToProps = defaultMapToVirtualProps) => (
     };
 
     // if props change, just assume we have to recalculate
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
       const { itemHeight, items, itemBuffer } = nextProps;
 
       this.setStateIfNeeded(this.domNode, this.options.container, items, itemHeight, itemBuffer);
